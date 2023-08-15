@@ -356,8 +356,16 @@ pipeline {
 
 
 ## HOW TO login in dockerhub
+This one is easy and simple. Only replace this "Dokerhubcrediential.ID only" with the dockerhub credential that you save in jenkins. Don't modify anything apart from that.
 
-```
+" stage('Login') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'Dokerhubcrediential.ID only', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+          sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
+        }
+      }
+    } 
+    "
 pipeline {
     agent any
   environment {
@@ -380,7 +388,7 @@ pipeline {
                 '''
             }
         }
-
+````
         stage('push docker image') {
 			steps {
 				withCredentials([string(credentialsId: 'DOCKER_HUB_PWD', variable: 'DOCKER_HUB_PWD')]) {
